@@ -1,3 +1,4 @@
+
 package com.callfromthegod.prayertimes
 
 import com.batoulapps.adhan2.CalculationMethod
@@ -5,6 +6,7 @@ import com.batoulapps.adhan2.Coordinates
 import com.batoulapps.adhan2.DateComponents
 import com.batoulapps.adhan2.Madhab
 import com.batoulapps.adhan2.PrayerTimes
+import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -14,6 +16,8 @@ object PrayerTimeCalculator {
 
     const val DEFAULT_LAT = 20.5007
     const val DEFAULT_LNG = 86.4226
+
+    private val zone = ZoneId.of("Asia/Kolkata")
 
     data class DailyPrayerTimes(
         val fajr: String,
@@ -27,12 +31,14 @@ object PrayerTimeCalculator {
     fun getPrayerTimes(
         lat: Double = DEFAULT_LAT,
         lng: Double = DEFAULT_LNG,
-        date: LocalDate = LocalDate.now()
+        date: LocalDate = LocalDate.now(zone)
     ): DailyPrayerTimes {
 
         val coordinates = Coordinates(lat, lng)
-        val params = CalculationMethod.MUSLIM_WORLD_LEAGUE.parameters
-        params.madhab = Madhab.HANAFI
+
+        val params = CalculationMethod.MUSLIM_WORLD_LEAGUE.parameters.copy(
+            madhab = Madhab.HANAFI
+        )
 
         val dateComponents = DateComponents(
             date.year,
@@ -51,10 +57,8 @@ object PrayerTimeCalculator {
             Locale.ENGLISH
         )
 
-        fun format(time: java.util.Date): String =
-            time.toInstant()
-                .atZone(ZoneId.of("Asia/Kolkata"))
-                .format(formatter)
+        fun format(time: Instant): String =
+            formatter.format(time.atZone(zone))
 
         return DailyPrayerTimes(
             fajr = format(prayerTimes.fajr),
