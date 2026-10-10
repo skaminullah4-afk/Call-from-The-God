@@ -1,0 +1,120 @@
+
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F4F7F2">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CALL FROM THE GOD"
+            android:textColor="#174A35"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginTop="24dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="KENDRAPARA PRAYER TIMES"
+            android:textColor="#5B7165"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/dateText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Today's Date"
+            android:textColor="#333333"
+            android:textSize="15sp"
+            android:layout_marginTop="18dp"
+            android:layout_marginBottom="24dp" />
+
+        <TextView
+            android:id="@+id/fajr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fajr"
+            android:textColor="#174A35"
+            android:textSize="20sp"
+            android:padding="18dp"
+            android:background="#FFFFFF"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/sunrise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sunrise"
+            android:textColor="#174A35"
+            android:textSize="20sp"
+            android:padding="18dp"
+            android:background="#FFFFFF"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/dhuhr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Dhuhr"
+            android:textColor="#174A35"
+            android:textSize="20sp"
+            android:padding="18dp"
+            android:background="#FFFFFF"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/asr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Asr (Hanafi)"
+            android:textColor="#174A35"
+            android:textSize="20sp"
+            android:padding="18dp"
+            android:background="#FFFFFF"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/maghrib"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Maghrib"
+            android:textColor="#174A35"
+            android:textSize="20sp"
+            android:padding="18dp"
+            android:background="#FFFFFF"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/isha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Isha"
+            android:textColor="#174A35"
+            android:textSize="20sp"
+            android:padding="18dp"
+            android:background="#FFFFFF"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prayer times are approximate"
+            android:textColor="#68756D"
+            android:textSize="12sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp" />
+
+    </LinearLayout>
+</ScrollView>
