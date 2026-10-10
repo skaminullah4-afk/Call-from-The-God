@@ -1,5 +1,6 @@
 package com.callfromthegod.prayertimes
 
+import android.content.Intent
 import android.app.Activity
 import android.os.Bundle
 import android.view.Gravity
@@ -27,6 +28,13 @@ class MainActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        findViewById<android.widget.Button>(
+    R.id.openHijriCalendar
+).setOnClickListener {
+    startActivity(
+        Intent(this, HijriCalendarActivity::class.java)
+    )
+        }
 
         citySpinner = findViewById(R.id.citySpinner)
         citySubtitle = findViewById(R.id.citySubtitle)
