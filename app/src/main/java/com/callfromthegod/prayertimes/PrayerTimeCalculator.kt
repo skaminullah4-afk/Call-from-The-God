@@ -2,10 +2,10 @@ package com.callfromthegod.prayertimes
 
 import com.batoulapps.adhan2.CalculationMethod
 import com.batoulapps.adhan2.Coordinates
-import com.batoulapps.adhan2.DateComponents
+import com.batoulapps.adhan2.data.DateComponents
 import com.batoulapps.adhan2.Madhab
 import com.batoulapps.adhan2.PrayerTimes
-import java.time.Instant
+import kotlin.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
