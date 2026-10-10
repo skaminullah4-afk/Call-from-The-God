@@ -1,4 +1,3 @@
-
 package com.callfromthegod.prayertimes
 
 import android.app.Activity
