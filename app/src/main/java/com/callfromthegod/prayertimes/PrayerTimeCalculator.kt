@@ -57,7 +57,9 @@ object PrayerTimeCalculator {
         )
 
         fun format(time: Instant): String =
-            formatter.format(time.atZone(zone))
+            formatter.format(
+    java.time.Instant.parse(time.toString()).atZone(zone)
+)
 
         return DailyPrayerTimes(
             fajr = format(prayerTimes.fajr),
