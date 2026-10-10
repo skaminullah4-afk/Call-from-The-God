@@ -7,6 +7,8 @@ import android.view.Gravity
 import android.widget.Button
 import android.widget.GridLayout
 import android.widget.LinearLayout
+import android.widget.Spinner
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import java.time.LocalDate
 import java.time.chrono.HijrahDate
@@ -48,6 +50,34 @@ class HijriCalendarActivity : Activity() {
             setPadding(0, 24, 0, 20)
         }
         root.addView(monthTitle)
+
+        val adjustmentLabel = TextView(this).apply {
+            text = "Hijri date adjustment (days)"
+            textSize = 14f
+            setTextColor(gold)
+            gravity = Gravity.CENTER
+        }
+        root.addView(adjustmentLabel)
+
+        val adjustmentSpinner = Spinner(this)
+        val adjustmentOptions = (-15..15).map { value ->
+            if (value > 0) "+$value" else value.toString()
+        }
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            adjustmentOptions
+        )
+        adapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
+        adjustmentSpinner.adapter = adapter
+        
+        adjustmentSpinner.setSelection(
+            HijriCalendarHelper.getOffset(this) + 15
+        )
+
+        root.addView(adjustmentSpinner)
 
         val navigation = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
