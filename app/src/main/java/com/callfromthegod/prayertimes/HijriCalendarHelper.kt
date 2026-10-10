@@ -9,13 +9,14 @@ object HijriCalendarHelper {
 
     private const val PREFS = "hijri_settings"
     private const val OFFSET_KEY = "day_offset"
-
+  
     fun getOffset(context: android.content.Context): Int {
         return context.getSharedPreferences(
             PREFS,
             android.content.Context.MODE_PRIVATE
-        ).getInt(OFFSET_KEY, 0).coerceIn(-5, 5)
+        ).getInt(OFFSET_KEY, 0).coerceIn(-15, 15)
     }
+
 
     fun setOffset(
         context: android.content.Context,
@@ -25,7 +26,7 @@ object HijriCalendarHelper {
             PREFS,
             android.content.Context.MODE_PRIVATE
         ).edit()
-            .putInt(OFFSET_KEY, offset.coerceIn(-5, 5))
+            .putInt(OFFSET_KEY, offset.coerceIn(-15, 15))
             .apply()
     }
 
