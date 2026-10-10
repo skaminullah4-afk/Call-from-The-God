@@ -25,5 +25,5 @@ android {
     }
 }
 dependencies {
-    implementation("com.batoulapps.adhan:adhan2:0.4.0")
+    implementation("com.batoulapps.adhan:adhan2:0.0.7")
 }
