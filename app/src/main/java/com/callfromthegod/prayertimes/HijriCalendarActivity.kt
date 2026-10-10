@@ -78,6 +78,35 @@ class HijriCalendarActivity : Activity() {
         )
 
         root.addView(adjustmentSpinner)
+        
+        adjustmentSpinner.onItemSelectedListener =
+        object : android.widget.AdapterView.OnItemSelectedListener {
+            
+            override fun onItemSelected(
+                parent: android.widget.AdapterView<*>?,
+                view: android.view.View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedOffset = position - 15
+                
+                HijriCalendarHelper.setOffset(
+                    this@HijriCalendarActivity,
+                    selectedOffset
+                )
+                
+                displayedMonth = HijrahDate.from(
+                    LocalDate.now().plusDays(selectedOffset.toLong())
+                )
+
+                renderCalendar()
+            }
+
+            override fun onNothingSelected(
+                parent: android.widget.AdapterView<*>?
+                    ) {
+            }
+        }
 
         val navigation = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
