@@ -16,6 +16,7 @@ class MainActivity : Activity() {
     private lateinit var citySpinner: Spinner
     private lateinit var citySubtitle: TextView
     private lateinit var dateText: TextView
+    private lateinit var hijriDateText: TextView
     private lateinit var fajr: TextView
     private lateinit var sunrise: TextView
     private lateinit var dhuhr: TextView
@@ -30,6 +31,7 @@ class MainActivity : Activity() {
         citySpinner = findViewById(R.id.citySpinner)
         citySubtitle = findViewById(R.id.citySubtitle)
         dateText = findViewById(R.id.dateText)
+        hijriDateText = findViewById(R.id.hijriDateText)
         fajr = findViewById(R.id.fajr)
         sunrise = findViewById(R.id.sunrise)
         dhuhr = findViewById(R.id.dhuhr)
@@ -85,6 +87,8 @@ class MainActivity : Activity() {
                 Locale.ENGLISH
             )
         )
+        hijriDateText.text =
+        HijriCalendarHelper.formatHijriDate(today)
 
         citySubtitle.text = "${city.name.uppercase(Locale.ENGLISH)} PRAYER TIMES"
 
