@@ -1,11 +1,10 @@
 package com.callfromthegod.prayertimes
 
-import com.batoulapps.adhan.CalculationMethod
-import com.batoulapps.adhan.CalculationParameters
-import com.batoulapps.adhan.Coordinates
-import com.batoulapps.adhan.DateComponents
-import com.batoulapps.adhan.Madhab
-import com.batoulapps.adhan.PrayerTimes
+import com.batoulapps.adhan2.CalculationMethod
+import com.batoulapps.adhan2.Coordinates
+import com.batoulapps.adhan2.DateComponents
+import com.batoulapps.adhan2.Madhab
+import com.batoulapps.adhan2.PrayerTimes
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
