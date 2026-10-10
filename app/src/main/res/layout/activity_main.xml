@@ -48,7 +48,7 @@
             android:textColor="#174A35"
             android:textSize="20sp"
             android:padding="18dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/prayer_card"
             android:layout_marginBottom="10dp" />
 
         <TextView
@@ -59,8 +59,7 @@
             android:textColor="#174A35"
             android:textSize="20sp"
             android:padding="18dp"
-            android:background="#FFFFFF"
-            android:backgroundTint="#F7F0DF"
+            android:background="@drawable/prayer_card"
             android:layout_marginBottom="10dp" />
 
         <TextView
@@ -71,7 +70,7 @@
             android:textColor="#174A35"
             android:textSize="20sp"
             android:padding="18dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/prayer_card"
             android:layout_marginBottom="10dp" />
 
         <TextView
@@ -82,7 +81,7 @@
             android:textColor="#174A35"
             android:textSize="20sp"
             android:padding="18dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/prayer_card"
             android:layout_marginBottom="10dp" />
 
         <TextView
@@ -93,7 +92,7 @@
             android:textColor="#174A35"
             android:textSize="20sp"
             android:padding="18dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/prayer_card"
             android:layout_marginBottom="10dp" />
 
         <TextView
@@ -104,7 +103,7 @@
             android:textColor="#174A35"
             android:textSize="20sp"
             android:padding="18dp"
-            android:background="#FFFFFF"
+            android:background="@drawable/prayer_card"
             android:layout_marginBottom="10dp" />
 
         <TextView
