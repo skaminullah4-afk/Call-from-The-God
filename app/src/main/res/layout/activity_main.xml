@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CALL FROM THE GOD"
-            android:textColor="#211B12"
+            android:textColor="#D4AF62"
             android:textSize="26sp"
             android:textStyle="bold"
             android:gravity="center"
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="KENDRAPARA PRAYER TIMES"
-            android:textColor="#5B7165"
+            android:textColor="#F7F0DF"
             android:textSize="16sp"
             android:layout_marginTop="8dp"
             android:gravity="center" />
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Today's Date"
-            android:textColor="#333333"
+            android:textColor="#D4AF62"
             android:textSize="15sp"
             android:layout_marginTop="18dp"
             android:layout_marginBottom="24dp" />
@@ -110,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Prayer times are approximate"
-            android:textColor="#68756D"
+            android:textColor="#D8CBAF"
             android:textSize="12sp"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="24dp" />
