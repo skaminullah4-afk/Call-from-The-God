@@ -145,7 +145,12 @@ class HijriCalendarActivity : Activity() {
             .between(firstDay, nextMonth).toInt()
 
         for (day in 1..daysInMonth) {
-            addCell(day.toString(), false)
+            addCell(
+                HijrahDate.of(year, month, day)
+                    .get(java.time.temporal.ChronoField.DAY_OF_MONTH)
+                    .toString(),
+                false
+            )
         }
     }
 
