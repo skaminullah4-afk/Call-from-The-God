@@ -3,7 +3,7 @@
 
     <application
         android:allowBackup="true"
-        android:label="Call from The God"
+        android:label="Call from Allah سُبْحَانَهُ وَتَعَالَى"
         android:theme="@android:style/Theme.Material.Light.NoActionBar"
         android:supportsRtl="true">
 
