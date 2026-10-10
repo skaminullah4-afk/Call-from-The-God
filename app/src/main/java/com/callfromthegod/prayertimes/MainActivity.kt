@@ -23,9 +23,7 @@ class MainActivity : Activity() {
                 )
             )
 
-        val times = PrayerTimeCalculator.getPrayerTimes(
-            dayOfYear = today.dayOfYear
-        )
+        val times = PrayerTimeCalculator.getPrayerTimes(date = today)
 
         findViewById<TextView>(R.id.fajr).text =
             "Fajr: ${times.fajr}"
