@@ -163,71 +163,76 @@ class HijriCalendarActivity : Activity() {
         renderCalendar()
     }
 
-    private fun renderCalendar() {
-        calendarGrid.removeAllViews()
+    
+private fun renderCalendar() {
+    calendarGrid.removeAllViews()
 
-        val year = displayedMonth.get(
-            java.time.temporal.ChronoField.YEAR
-        )
-        val month = displayedMonth.get(
-            java.time.temporal.ChronoField.MONTH_OF_YEAR
-        )
+    val offsetDays = HijriCalendarHelper.getOffset(this).toLong()
 
-        val monthNames = listOf(
-            "Muharram", "Safar", "Rabi al-Awwal",
-            "Rabi al-Thani", "Jumada al-Awwal",
-            "Jumada al-Thani", "Rajab", "Sha'ban",
-            "Ramadan", "Shawwal", "Dhul Qadah",
-            "Dhul Hijjah"
-        )
+    // Use the adjusted date to determine the displayed Hijri month.
+    val adjustedToday = HijrahDate.from(
+        LocalDate.now().plusDays(offsetDays)
+    )
 
-        monthTitle.text = "${monthNames[month - 1]} $year AH"
+    val year = displayedMonth.get(
+        java.time.temporal.ChronoField.YEAR
+    )
+    val month = displayedMonth.get(
+        java.time.temporal.ChronoField.MONTH_OF_YEAR
+    )
 
-        val weekdays = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+    val monthNames = listOf(
+        "Muharram", "Safar", "Rabi al-Awwal",
+        "Rabi al-Thani", "Jumada al-Awwal",
+        "Jumada al-Thani", "Rajab", "Sha'ban",
+        "Ramadan", "Shawwal", "Dhul Qadah",
+        "Dhul Hijjah"
+    )
 
-        weekdays.forEach { day ->
-            addCell(day, true)
-        }
+    monthTitle.text = "${monthNames[month - 1]} $year AH"
 
-        val firstDay = HijrahDate.of(year, month, 1)
-        val adjustedFirstGregorian = LocalDate.from(firstDay)
-            .minusDays(HijriCalendarHelper.getOffset(this).toLong())
+    val weekdays = listOf(
+        "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"
+    )
+    weekdays.forEach { addCell(it, true) }
 
-        val offset = adjustedFirstGregorian.dayOfWeek.value - 1
+    val firstHijriDay = HijrahDate.of(year, month, 1)
+    val nextHijriMonth = firstHijriDay.plus(
+        1,
+        java.time.temporal.ChronoUnit.MONTHS
+    )
 
-        repeat(offset) {
-            addCell("", false)
-        }
+    val daysInMonth = java.time.temporal.ChronoUnit.DAYS
+        .between(firstHijriDay, nextHijriMonth).toInt()
 
-        val nextMonth = firstDay.plus(
-            1,
-            java.time.temporal.ChronoUnit.MONTHS
-        )
-        val daysInMonth = java.time.temporal.ChronoUnit.DAYS
-            .between(firstDay, nextMonth).toInt()
+    // Find the Gregorian date that maps to Hijri day 1
+    // after applying the selected adjustment.
+    val firstGregorianDay = LocalDate.from(firstHijriDay)
+        .minusDays(offsetDays)
 
-        
-        for (day in 1..daysInMonth) {
-            val adjustedHijriDay = HijrahDate.from(
-                LocalDate.from(HijrahDate.of(year, month, day))
-                    .minusDays(HijriCalendarHelper.getOffset(this).toLong())
-            ).get(java.time.temporal.ChronoField.DAY_OF_MONTH)
+    val weekdayOffset = firstGregorianDay.dayOfWeek.value - 1
 
-            val arabicDay = adjustedHijriDay.toString()
-                .replace('0', '٠')
-                .replace('1', '١')
-                .replace('2', '٢')
-                .replace('3', '٣')
-                .replace('4', '٤')
-                .replace('5', '٥')
-                .replace('6', '٦')
-                .replace('7', '٧')
-                .replace('8', '٨')
-                .replace('9', '٩')
-
-            addCell(arabicDay, false)
-        }
+    repeat(weekdayOffset) {
+        addCell("", false)
     }
+
+    for (day in 1..daysInMonth) {
+        val arabicDay = day.toString()
+            .replace('0', '٠')
+            .replace('1', '١')
+            .replace('2', '٢')
+            .replace('3', '٣')
+            .replace('4', '٤')
+            .replace('5', '٥')
+            .replace('6', '٦')
+            .replace('7', '٧')
+            .replace('8', '٨')
+            .replace('9', '٩')
+
+        addCell(arabicDay, false)
+    }
+}
+
 
     private fun addCell(value: String, isHeader: Boolean) {
         val cell = TextView(this).apply {
