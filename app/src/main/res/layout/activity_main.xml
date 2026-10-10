@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="CALL FROM THE GOD"
-            android:textColor="#174A35"
+            android:textColor="#211B12"
             android:textSize="26sp"
             android:textStyle="bold"
             android:gravity="center"
@@ -60,6 +60,7 @@
             android:textSize="20sp"
             android:padding="18dp"
             android:background="#FFFFFF"
+            android:backgroundTint="#F7F0DF"
             android:layout_marginBottom="10dp" />
 
         <TextView
