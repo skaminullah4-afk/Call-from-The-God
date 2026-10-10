@@ -95,8 +95,10 @@ class MainActivity : Activity() {
                 Locale.ENGLISH
             )
         )
-        hijriDateText.text =
-        HijriCalendarHelper.formatHijriDate(today)
+        hijriDateText.text = HijriCalendarHelper.formatHijriDate(
+            today,
+            HijriCalendarHelper.getOffset(this)
+        )
 
         citySubtitle.text = "${city.name.uppercase(Locale.ENGLISH)} PRAYER TIMES"
 
