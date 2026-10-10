@@ -17,6 +17,7 @@ class HijriCalendarActivity : Activity() {
 
     private var displayedMonth = HijrahDate.now()
     private lateinit var monthTitle: TextView
+    private lateinit var adjustmentTitle: TextView
     private lateinit var calendarGrid: GridLayout
 
     private val gold = Color.rgb(212, 175, 98)
