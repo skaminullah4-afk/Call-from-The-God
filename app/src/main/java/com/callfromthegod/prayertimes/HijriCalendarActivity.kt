@@ -190,8 +190,10 @@ class HijriCalendarActivity : Activity() {
         }
 
         val firstDay = HijrahDate.of(year, month, 1)
-        val firstGregorian = LocalDate.from(firstDay)
-        val offset = firstGregorian.dayOfWeek.value - 1
+        val adjustedFirstGregorian = LocalDate.from(firstDay)
+            .minusDays(HijriCalendarHelper.getOffset(this).toLong())
+
+        val offset = adjustedFirstGregorian.dayOfWeek.value - 1
 
         repeat(offset) {
             addCell("", false)
