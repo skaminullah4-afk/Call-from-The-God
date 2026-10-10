@@ -145,13 +145,21 @@ class HijriCalendarActivity : Activity() {
             .between(firstDay, nextMonth).toInt()
 
         for (day in 1..daysInMonth) {
-            addCell(
-                HijrahDate.of(year, month, day)
-                    .get(java.time.temporal.ChronoField.DAY_OF_MONTH)
-                    .toString(),
-                false
-            )
+            val arabicDay = day.toString()
+                .replace('0', '٠')
+                .replace('1', '١')
+                .replace('2', '٢')
+                .replace('3', '٣')
+                .replace('4', '٤')
+                .replace('5', '٥')
+                .replace('6', '٦')
+                .replace('7', '٧')
+                .replace('8', '٨')
+                .replace('9', '٩')
+
+            addCell(arabicDay, false)
         }
+
     }
 
     private fun addCell(value: String, isHeader: Boolean) {
