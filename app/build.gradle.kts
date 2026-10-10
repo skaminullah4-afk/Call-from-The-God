@@ -24,3 +24,6 @@ android {
         jvmTarget = "17"
     }
 }
+dependencies {
+    implementation("com.batoulapps.adhan:adhan2:0.4.0")
+}
