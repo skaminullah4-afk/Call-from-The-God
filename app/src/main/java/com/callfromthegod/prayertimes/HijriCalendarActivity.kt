@@ -206,8 +206,14 @@ class HijriCalendarActivity : Activity() {
         val daysInMonth = java.time.temporal.ChronoUnit.DAYS
             .between(firstDay, nextMonth).toInt()
 
+        
         for (day in 1..daysInMonth) {
-            val arabicDay = day.toString()
+            val adjustedHijriDay = HijrahDate.from(
+                LocalDate.from(HijrahDate.of(year, month, day))
+                    .minusDays(HijriCalendarHelper.getOffset(this).toLong())
+            ).get(java.time.temporal.ChronoField.DAY_OF_MONTH)
+
+            val arabicDay = adjustedHijriDay.toString()
                 .replace('0', '٠')
                 .replace('1', '١')
                 .replace('2', '٢')
@@ -221,7 +227,6 @@ class HijriCalendarActivity : Activity() {
 
             addCell(arabicDay, false)
         }
-
     }
 
     private fun addCell(value: String, isHeader: Boolean) {
