@@ -160,7 +160,7 @@ class MainActivity : Activity() {
         sunrise.text = "Sunrise: ${times.sunrise}"
         zawal.text = "Zawāl (approx. solar noon): ${times.zawal}"
         dhuhr.text = "Dhuhr: ${times.dhuhr}"
-        asr.text = "Asr (${asrMethods[asrMethodSpinner.selectedItemPosition]}): ${times.asrHanafi}"
+        asr.text = "Asr (${asrMethods[asrMethodSpinner.selectedItemPosition]}): ${times.asr}"
         maghrib.text = "Maghrib: ${times.maghrib}"
         isha.text = "Isha: ${times.isha}"
     }
