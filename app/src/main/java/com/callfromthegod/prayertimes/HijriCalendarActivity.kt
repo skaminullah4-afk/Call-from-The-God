@@ -241,7 +241,12 @@ private fun renderCalendar() {
 
     // Find the Gregorian date corresponding to Hijri day 1,
     // then map each actual calendar date to its adjusted Hijri date.
-    val firstHijriDay = HijrahDate.of(year, month, 1)
+   
+    val firstHijriDay = HijrahDate.of(
+        year,
+        month,
+        1
+    ).let { it }
     val firstGregorianDay = LocalDate.from(firstHijriDay)
         .minusDays(offsetDays)
 
