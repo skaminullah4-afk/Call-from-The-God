@@ -23,7 +23,9 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class MainActivity : Activity() {
-
+    
+    private var activeLatitude = PrayerTimeCalculator.DEFAULT_LAT
+    private var activeLongitude = PrayerTimeCalculator.DEFAULT_LNG
     private lateinit var citySpinner: Spinner
     private lateinit var asrMethodSpinner: Spinner
     private lateinit var citySubtitle: TextView
