@@ -75,9 +75,13 @@ class QiblaActivity : Activity(), SensorEventListener {
         )
 
         compassView = CompassView()
-        layout.addView(
+        layout.addView(  
             compassView,
-            LinearLayout.LayoutParams(280, 280)
+            LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                0,
+                1f
+            )
         )
 
         statusText = addText(
