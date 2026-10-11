@@ -1,4 +1,3 @@
-
 package com.callfromthegod.prayertimes
 
 import com.batoulapps.adhan2.CalculationMethod
