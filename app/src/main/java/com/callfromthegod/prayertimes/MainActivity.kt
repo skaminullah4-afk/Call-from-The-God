@@ -50,16 +50,45 @@ class MainActivity : Activity() {
         isha = findViewById(R.id.isha)
 
         val cities = PrayerCities.all
+        val adapter = object : ArrayAdapter<String>(
+    this,
+    android.R.layout.simple_spinner_item,
+    cities.map { it.name }
+) {
+    override fun getView(
+        position: Int,
+        convertView: View?,
+        parent: android.view.ViewGroup
+    ): View {
+        val view = super.getView(position, convertView, parent)
+        (view as android.widget.TextView).setTextColor(
+            android.graphics.Color.parseColor("#174A35")
+        )
+        return view
+    }
 
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            cities.map { it.name }
+    override fun getDropDownView(
+        position: Int,
+        convertView: View?,
+        parent: android.view.ViewGroup
+    ): View {
+        val view = super.getDropDownView(position, convertView, parent)
+        (view as android.widget.TextView).setTextColor(
+            android.graphics.Color.parseColor("#174A35")
         )
-        adapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
+        view.setBackgroundColor(
+            android.graphics.Color.parseColor("#F7F0DF")
         )
-        citySpinner.adapter = adapter
+        return view
+    }
+}
+
+adapter.setDropDownViewResource(
+    android.R.layout.simple_spinner_dropdown_item
+)
+citySpinner.adapter = adapter
+        
+        
         findViewById<android.widget.Button>(
             R.id.openQibla
         ).setOnClickListener {
