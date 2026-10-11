@@ -197,7 +197,7 @@ class QiblaActivity : Activity(), SensorEventListener {
 
             val cx = width / 2f
             val cy = height / 2f
-            val radius = min(cx, cy) * 0.85f
+            val radius = min(cx, cy) * 0.94f
 
             paint.style = android.graphics.Paint.Style.STROKE
             paint.strokeWidth = 4f
