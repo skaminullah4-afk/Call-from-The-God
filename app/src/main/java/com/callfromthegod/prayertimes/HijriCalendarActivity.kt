@@ -292,7 +292,9 @@ val firstGregorianDay = LocalDate.from(firstHijriDay)
             .replace('8', '٨')
             .replace('9', '٩')
           
-        val isToday = gregorianDate == LocalDate.now()
+        val isToday = gregorianDate == LocalDate.now(
+    java.time.ZoneId.of(timeZone)
+)
 
         addCell(
             arabicDay,
