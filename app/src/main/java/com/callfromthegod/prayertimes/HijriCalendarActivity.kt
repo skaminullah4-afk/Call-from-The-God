@@ -18,6 +18,9 @@ import java.util.Locale
 class HijriCalendarActivity : Activity() {
 
     private var displayedMonth = HijrahDate.now()
+    private var latitude = 20.5007
+    private var longitude = 86.4226
+    private var timeZone = "Asia/Kolkata"
     private lateinit var monthTitle: TextView
     private lateinit var adjustmentTitle: TextView
     private lateinit var calendarGrid: GridLayout
