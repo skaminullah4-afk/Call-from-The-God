@@ -35,6 +35,19 @@ class MainActivity : Activity() {
         Intent(this, HijriCalendarActivity::class.java)
     )
         }
+        
+        findViewById<android.widget.Button>(
+            R.id.openQibla
+        ).setOnClickListener {
+            val city = PrayerCities.all[
+                citySpinner.selectedItemPosition
+            ]
+
+            val intent = Intent(this, QiblaActivity::class.java)
+            intent.putExtra("latitude", city.latitude)
+            intent.putExtra("longitude", city.longitude)
+            startActivity(intent)
+        }
 
         citySpinner = findViewById(R.id.citySpinner)
         citySubtitle = findViewById(R.id.citySubtitle)
