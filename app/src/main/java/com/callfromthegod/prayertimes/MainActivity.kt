@@ -23,10 +23,11 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class MainActivity : Activity() {
-    
+
     private var activeLatitude = PrayerTimeCalculator.DEFAULT_LAT
     private var activeLongitude = PrayerTimeCalculator.DEFAULT_LNG
     private var activeTimeZone = "Asia/Kolkata"
+
     private lateinit var citySpinner: Spinner
     private lateinit var asrMethodSpinner: Spinner
     private lateinit var citySubtitle: TextView
@@ -42,6 +43,7 @@ class MainActivity : Activity() {
 
     private val asrMethods = listOf("Hanafi", "Shafi'i")
     private val locationPermissionCode = 101
+
     private val fusedLocationClient by lazy {
         LocationServices.getFusedLocationProviderClient(this)
     }
@@ -51,14 +53,11 @@ class MainActivity : Activity() {
         setContentView(R.layout.activity_main)
 
         findViewById<Button>(R.id.openHijriCalendar).setOnClickListener {
-    val intent = Intent(this, HijriCalendarActivity::class.java)
-    intent.putExtra("latitude", activeLatitude)
-    intent.putExtra("longitude", activeLongitude)
-    intent.putExtra(
-        "timeZone",
-        ZoneId.systemDefault().id
-    )
-    startActivity(intent)
+            val intent = Intent(this, HijriCalendarActivity::class.java)
+            intent.putExtra("latitude", activeLatitude)
+            intent.putExtra("longitude", activeLongitude)
+            intent.putExtra("timeZone", activeTimeZone)
+            startActivity(intent)
         }
 
         citySpinner = findViewById(R.id.citySpinner)
@@ -135,6 +134,7 @@ class MainActivity : Activity() {
         val kendraparaIndex = cities.indexOfFirst {
             it.name == "Kendrapara"
         }
+
         citySpinner.setSelection(
             if (kendraparaIndex >= 0) kendraparaIndex else 0
         )
@@ -226,6 +226,7 @@ class MainActivity : Activity() {
     ) {
         activeLatitude = latitude
         activeLongitude = longitude
+
         val city = PrayerCity(
             name = "Current location",
             latitude = latitude,
@@ -273,6 +274,7 @@ class MainActivity : Activity() {
         activeLatitude = city.latitude
         activeLongitude = city.longitude
         activeTimeZone = city.timeZone
+
         val zone = ZoneId.of(city.timeZone)
         val today = LocalDate.now(zone)
 
@@ -323,9 +325,11 @@ class MainActivity : Activity() {
             val city = PrayerCities.all.getOrNull(
                 citySpinner.selectedItemPosition
             )
+
             val zone = ZoneId.of(
-                city?.timeZone ?: "Asia/Kolkata"
+                city?.timeZone ?: activeTimeZone
             )
+
             val today = LocalDate.now(zone)
 
             hijriDateText.text = HijriCalendarHelper.formatHijriDate(
