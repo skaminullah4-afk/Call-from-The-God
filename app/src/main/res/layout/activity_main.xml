@@ -42,7 +42,17 @@
             android:paddingEnd="12dp"
             android:popupBackground="#F7F0DF"
             android:contentDescription="Select city" />
-
+  
+        <Button
+            android:id="@+id/useCurrentLocation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="📍 USE MY CURRENT LOCATION"
+            android:textColor="#174A35"
+            android:textStyle="bold"
+            android:backgroundTint="#D4AF62"
+            android:layout_marginBottom="16dp" />
+        
         <TextView
             android:id="@+id/dateText"
             android:layout_width="wrap_content"
