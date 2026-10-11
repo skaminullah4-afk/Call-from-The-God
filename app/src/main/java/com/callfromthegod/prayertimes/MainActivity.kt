@@ -50,7 +50,14 @@ class MainActivity : Activity() {
         setContentView(R.layout.activity_main)
 
         findViewById<Button>(R.id.openHijriCalendar).setOnClickListener {
-            startActivity(Intent(this, HijriCalendarActivity::class.java))
+    val intent = Intent(this, HijriCalendarActivity::class.java)
+    intent.putExtra("latitude", activeLatitude)
+    intent.putExtra("longitude", activeLongitude)
+    intent.putExtra(
+        "timeZone",
+        ZoneId.systemDefault().id
+    )
+    startActivity(intent)
         }
 
         citySpinner = findViewById(R.id.citySpinner)
