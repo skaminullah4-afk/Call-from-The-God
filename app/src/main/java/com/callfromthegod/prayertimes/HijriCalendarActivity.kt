@@ -229,8 +229,6 @@ private fun renderCalendar() {
             .replace('7', '٧')
             .replace('8', '٨')
             .replace('9', '٩')
-
-        addCell(arabicDay, false)
           
         val isToday = gregorianDate == LocalDate.now()
 
