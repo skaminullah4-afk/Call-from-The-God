@@ -116,4 +116,16 @@ class MainActivity : Activity() {
         maghrib.text = "Maghrib: ${times.maghrib}"
         isha.text = "Isha: ${times.isha}"
     }
+    
+override fun onResume() {
+    super.onResume()
+
+    if (::hijriDateText.isInitialized) {
+        hijriDateText.text = HijriCalendarHelper.formatHijriDate(
+            LocalDate.now(),
+            HijriCalendarHelper.getOffset(this)
+        )
+    }
+}
+
 }
