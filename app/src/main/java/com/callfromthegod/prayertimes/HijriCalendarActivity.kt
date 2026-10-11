@@ -147,26 +147,38 @@ class HijriCalendarActivity : Activity() {
         }
 
         val previous = Button(this).apply {
-            text = "Previous"
-            setOnClickListener {
-                displayedMonth = displayedMonth.minus(
-                    1,
-                    java.time.temporal.ChronoUnit.MONTHS
-                )
-                renderCalendar()
-            }
-        }
+    text = "‹ Previous"
+    setTextColor(Color.rgb(212, 175, 98))
+    background = android.graphics.drawable.GradientDrawable().apply {
+        setColor(Color.rgb(33, 29, 22))
+        setStroke(2, Color.rgb(212, 175, 98))
+        cornerRadius = 12f
+    }
+    setOnClickListener {
+        displayedMonth = displayedMonth.minus(
+            1,
+            java.time.temporal.ChronoUnit.MONTHS
+        )
+        renderCalendar()
+    }
+}
 
-        val next = Button(this).apply {
-            text = "Next"
-            setOnClickListener {
-                displayedMonth = displayedMonth.plus(
-                    1,
-                    java.time.temporal.ChronoUnit.MONTHS
-                )
-                renderCalendar()
-            }
-        }
+val next = Button(this).apply {
+    text = "Next ›"
+    setTextColor(Color.rgb(212, 175, 98))
+    background = android.graphics.drawable.GradientDrawable().apply {
+        setColor(Color.rgb(33, 29, 22))
+        setStroke(2, Color.rgb(212, 175, 98))
+        cornerRadius = 12f
+    }
+    setOnClickListener {
+        displayedMonth = displayedMonth.plus(
+            1,
+            java.time.temporal.ChronoUnit.MONTHS
+        )
+        renderCalendar()
+    }
+}
 
         navigation.addView(previous)
         navigation.addView(next)
