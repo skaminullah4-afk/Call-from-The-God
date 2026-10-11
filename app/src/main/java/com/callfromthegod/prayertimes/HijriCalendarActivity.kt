@@ -231,12 +231,24 @@ private fun renderCalendar() {
             .replace('9', '٩')
 
         addCell(arabicDay, false)
+          
+        val isToday = gregorianDate == LocalDate.now()
+
+        addCell(
+            arabicDay,
+            false,
+            isToday
+        )
     }
 }
 
 
 
-    private fun addCell(value: String, isHeader: Boolean) {
+    private fun addCell(
+    value: String,
+    isHeader: Boolean,
+    isToday: Boolean = false
+) {
         val cell = TextView(this).apply {
             text = value
             gravity = Gravity.CENTER
