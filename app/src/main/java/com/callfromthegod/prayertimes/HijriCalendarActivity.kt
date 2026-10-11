@@ -253,8 +253,12 @@ private fun renderCalendar() {
         month,
         1
     ).let { it }
-    val firstGregorianDay = LocalDate.from(firstHijriDay)
-        .minusDays(offsetDays)
+    val todayInLocation = LocalDate.now(
+    java.time.ZoneId.of(timeZone)
+)
+
+val firstGregorianDay = LocalDate.from(firstHijriDay)
+    .minusDays(offsetDays)
 
     val weekdayOffset = firstGregorianDay.dayOfWeek.value - 1
     repeat(weekdayOffset) {
