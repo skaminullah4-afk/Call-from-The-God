@@ -216,6 +216,8 @@ class MainActivity : Activity() {
         latitude: Double,
         longitude: Double
     ) {
+        activeLatitude = latitude
+        activeLongitude = longitude
         val city = PrayerCity(
             name = "Current location",
             latitude = latitude,
