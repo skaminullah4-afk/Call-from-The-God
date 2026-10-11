@@ -59,7 +59,14 @@ class HijriCalendarActivity : Activity() {
         }
         root.addView(adjustmentLabel)
 
-        val adjustmentSpinner = Spinner(this)
+        val adjustmentSpinner = Spinner(this).apply {
+            background = android.graphics.drawable.GradientDrawable().apply {
+                setColor(Color.rgb(33, 29, 22))
+                setStroke(2, Color.rgb(212, 175, 98))
+                cornerRadius = 12f
+            }
+            setPadding(12, 8, 12, 8)
+        }
         val adjustmentOptions = (-15..15).map { value ->
             if (value > 0) "+$value" else value.toString()
         }
