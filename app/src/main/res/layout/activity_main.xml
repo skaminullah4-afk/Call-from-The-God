@@ -40,7 +40,7 @@
             android:background="@drawable/selector_background"
             android:paddingStart="12dp"
             android:paddingEnd="12dp"
-            android:popupBackground="#211D16"
+            android:popupBackground="#F7F0DF"
             android:contentDescription="Select city" />
 
         <TextView
