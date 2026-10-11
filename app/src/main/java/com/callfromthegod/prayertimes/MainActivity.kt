@@ -36,18 +36,7 @@ class MainActivity : Activity() {
     )
         }
         
-        findViewById<android.widget.Button>(
-            R.id.openQibla
-        ).setOnClickListener {
-            val city = PrayerCities.all[
-                citySpinner.selectedItemPosition
-            ]
-
-            val intent = Intent(this, QiblaActivity::class.java)
-            intent.putExtra("latitude", city.latitude)
-            intent.putExtra("longitude", city.longitude)
-            startActivity(intent)
-        }
+        
 
         citySpinner = findViewById(R.id.citySpinner)
         citySubtitle = findViewById(R.id.citySubtitle)
@@ -71,7 +60,18 @@ class MainActivity : Activity() {
             android.R.layout.simple_spinner_dropdown_item
         )
         citySpinner.adapter = adapter
+        findViewById<android.widget.Button>(
+            R.id.openQibla
+        ).setOnClickListener {
+            val city = PrayerCities.all[
+                citySpinner.selectedItemPosition
+            ]
 
+            val intent = Intent(this, QiblaActivity::class.java)
+            intent.putExtra("latitude", city.latitude)
+            intent.putExtra("longitude", city.longitude)
+            startActivity(intent)
+        }
         val kendraparaIndex = cities.indexOfFirst {
             it.name == "Kendrapara"
         }
