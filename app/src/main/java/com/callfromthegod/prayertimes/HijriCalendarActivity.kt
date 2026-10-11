@@ -31,6 +31,9 @@ class HijriCalendarActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        latitude = intent.getDoubleExtra("latitude", 20.5007)
+longitude = intent.getDoubleExtra("longitude", 86.4226)
+timeZone = intent.getStringExtra("timeZone") ?: "Asia/Kolkata"
 
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
