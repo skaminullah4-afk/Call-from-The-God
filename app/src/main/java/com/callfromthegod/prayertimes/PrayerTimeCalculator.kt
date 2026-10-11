@@ -43,7 +43,8 @@ object PrayerTimeCalculator {
 
         val zone = ZoneId.of(timeZone)
         val coordinates = Coordinates(lat, lng)
-        val dayOfYear = date.dayOfYear
+        
+val dayOfYear = date.dayOfYear
 val b = Math.toRadians(
     360.0 * (dayOfYear - 81) / 364.0
 )
@@ -62,32 +63,6 @@ val solarNoonMinutes = 720.0 -
 val zawalTime = date.atStartOfDay(zone)
     .plusSeconds((solarNoonMinutes * 60).toLong())
     .format(DateTimeFormatter.ofPattern("hh:mm a", Locale.ENGLISH))
-
-        val madhab = when (asrMethod) {
-            AsrMethod.HANAFI -> Madhab.HANAFI
-            AsrMethod.SHAFII -> Madhab.SHAFI
-        }
-
-        val params = CalculationMethod.KARACHI.parameters.copy(
-            madhab = madhab
-        )
-
-        val dateComponents = DateComponents(
-            date.year,
-            date.monthValue,
-            date.dayOfMonth
-        )
-
-        val prayerTimes = PrayerTimes(
-            coordinates,
-            dateComponents,
-            params
-        )
-
-        val formatter = DateTimeFormatter.ofPattern(
-            "hh:mm a",
-            Locale.ENGLISH
-        )
 
         fun format(time: Instant): String =
             formatter.format(
