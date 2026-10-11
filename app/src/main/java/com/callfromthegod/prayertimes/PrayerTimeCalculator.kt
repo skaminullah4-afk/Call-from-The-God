@@ -29,7 +29,7 @@ object PrayerTimeCalculator {
         val sunrise: String,
         val zawal: String,
         val dhuhr: String,
-        val asrHanafi: String,
+        val asr: String,
         val maghrib: String,
         val isha: String
     )
@@ -101,7 +101,7 @@ object PrayerTimeCalculator {
             sunrise = format(prayerTimes.sunrise),
             zawal = zawalTime,
             dhuhr = format(prayerTimes.dhuhr),
-            asrHanafi = format(prayerTimes.asr),
+            asr = format(prayerTimes.asr),
             maghrib = format(prayerTimes.maghrib),
             isha = format(prayerTimes.isha)
         )
