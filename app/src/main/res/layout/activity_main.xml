@@ -70,6 +70,16 @@
             android:textStyle="bold"
             android:backgroundTint="#D4AF62"
             android:layout_marginBottom="20dp" />
+
+        <Button
+            android:id="@+id/openQibla"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="🕋 FIND QIBLA DIRECTION"
+            android:textColor="#174A35"
+            android:textStyle="bold"
+            android:backgroundTint="#D4AF62"
+            android:layout_marginBottom="20dp" />
         
 
         <TextView
