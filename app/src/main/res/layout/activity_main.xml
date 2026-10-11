@@ -83,7 +83,17 @@
             android:textStyle="bold"
             android:backgroundTint="#D4AF62"
             android:layout_marginBottom="20dp" />
-        
+      
+        <Spinner
+            android:id="@+id/asrMethodSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/selector_background"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:popupBackground="#F7F0DF"
+            android:contentDescription="Select Asr calculation method" />
 
         <TextView
             android:id="@+id/fajr"
