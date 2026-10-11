@@ -5,9 +5,9 @@ import android.os.Bundle
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Canvas
-import android.graphics.Path
 import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.hardware.Sensor
@@ -34,6 +34,9 @@ class QiblaActivity : Activity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        window.statusBarColor = Color.rgb(15, 15, 15)
+        window.navigationBarColor = Color.rgb(15, 15, 15)
+
         val lat = intent.getDoubleExtra("latitude", 20.4625)
         val lng = intent.getDoubleExtra("longitude", 85.8828)
 
@@ -52,6 +55,17 @@ class QiblaActivity : Activity(), SensorEventListener {
             gravity = Gravity.CENTER
             setPadding(16, 8, 16, 8)
             setBackgroundColor(Color.rgb(15, 15, 15))
+        }
+
+        // Keep content clear of Android's bottom navigation area.
+        layout.setOnApplyWindowInsetsListener { view, insets ->
+            view.setPadding(
+                16,
+                8,
+                16,
+                8 + insets.systemWindowInsetBottom
+            )
+            insets
         }
 
         fun addText(
@@ -95,7 +109,7 @@ class QiblaActivity : Activity(), SensorEventListener {
         )
 
         statusText = addText(
-            "Keep your phone flat and calibrate the compass.",
+            "Keep your phone flat and away from magnets.",
             14f,
             Color.LTGRAY
         )
@@ -133,7 +147,6 @@ class QiblaActivity : Activity(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-
         rotationSensor?.let {
             sensorManager.registerListener(
                 this,
@@ -145,7 +158,6 @@ class QiblaActivity : Activity(), SensorEventListener {
 
     override fun onPause() {
         super.onPause()
-
         if (::sensorManager.isInitialized) {
             sensorManager.unregisterListener(this)
         }
@@ -201,57 +213,12 @@ class QiblaActivity : Activity(), SensorEventListener {
 
         private val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-        private fun drawKaaba(
-            canvas: Canvas,
-            x: Float,
-            y: Float,
-            size: Float
-        ) {
-            val half = size / 2f
-
-            paint.style = Paint.Style.FILL
-            paint.color = Color.rgb(25, 25, 25)
-
-            canvas.drawRect(
-                x - half,
-                y - half,
-                x + half,
-                y + half,
-                paint
-            )
-
-            paint.color = gold
-            canvas.drawRect(
-                x - half,
-                y - half + size * 0.25f,
-                x + half,
-                y - half + size * 0.38f,
-                paint
-            )
-
-            paint.color = Color.WHITE
-            paint.strokeWidth = 2f
-            paint.style = Paint.Style.STROKE
-
-            canvas.drawRect(
-                x - half,
-                y - half,
-                x + half,
-                y + half,
-                paint
-            )
-
-            paint.style = Paint.Style.FILL
-        }
-
         override fun onDraw(canvas: Canvas) {
             super.onDraw(canvas)
 
             val cx = width / 2f
             val cy = height / 2f
-
-            // Keep the compass comfortably inside the available view.
-            val radius = min(cx, cy) * 0.82f
+            val radius = min(cx, cy) * 0.80f
 
             paint.style = Paint.Style.STROKE
             paint.strokeWidth = 3f
@@ -260,37 +227,43 @@ class QiblaActivity : Activity(), SensorEventListener {
 
             paint.style = Paint.Style.FILL
             paint.textAlign = Paint.Align.CENTER
-            paint.textSize = 24f
+            paint.textSize = 25f
             paint.color = gold
 
             canvas.drawText(
                 "N",
                 cx,
-                cy - radius + 28f,
+                cy - radius + 29f,
                 paint
             )
 
             canvas.save()
             canvas.rotate(-deviceHeading, cx, cy)
 
-            // Larger white pointer.
-            val pointerY = cy - radius + 65f
-            val pointer = Path().apply {
-                moveTo(cx, pointerY - 24f)
-                lineTo(cx - 15f, pointerY + 13f)
+            // Larger, clearer white direction pointer.
+            val pointerY = cy - radius + 70f
+            val pointer = android.graphics.Path().apply {
+                moveTo(cx, pointerY - 27f)
+                lineTo(cx - 17f, pointerY + 15f)
                 lineTo(cx, pointerY + 7f)
-                lineTo(cx + 15f, pointerY + 13f)
+                lineTo(cx + 17f, pointerY + 15f)
                 close()
             }
 
             paint.color = Color.WHITE
             canvas.drawPath(pointer, paint)
 
-            // Rotate the Kaaba marker to the Qibla bearing.
+            // Larger Kaaba emoji.
             canvas.rotate(qiblaBearing, cx, cy)
+            paint.textSize = 46f
+            paint.textAlign = Paint.Align.CENTER
 
-            val kaabaY = cy - radius + 112f
-            drawKaaba(canvas, cx, kaabaY, 30f)
+            canvas.drawText(
+                "🕋",
+                cx,
+                cy - radius + 137f,
+                paint
+            )
 
             canvas.restore()
 
