@@ -163,16 +163,12 @@ class HijriCalendarActivity : Activity() {
         renderCalendar()
     }
 
+
     
 private fun renderCalendar() {
     calendarGrid.removeAllViews()
 
     val offsetDays = HijriCalendarHelper.getOffset(this).toLong()
-
-    // Use the adjusted date to determine the displayed Hijri month.
-    val adjustedToday = HijrahDate.from(
-        LocalDate.now().plusDays(offsetDays)
-    )
 
     val year = displayedMonth.get(
         java.time.temporal.ChronoField.YEAR
@@ -196,28 +192,33 @@ private fun renderCalendar() {
     )
     weekdays.forEach { addCell(it, true) }
 
+    // Find the Gregorian date corresponding to Hijri day 1,
+    // then map each actual calendar date to its adjusted Hijri date.
     val firstHijriDay = HijrahDate.of(year, month, 1)
-    val nextHijriMonth = firstHijriDay.plus(
-        1,
-        java.time.temporal.ChronoUnit.MONTHS
-    )
-
-    val daysInMonth = java.time.temporal.ChronoUnit.DAYS
-        .between(firstHijriDay, nextHijriMonth).toInt()
-
-    // Find the Gregorian date that maps to Hijri day 1
-    // after applying the selected adjustment.
     val firstGregorianDay = LocalDate.from(firstHijriDay)
         .minusDays(offsetDays)
 
     val weekdayOffset = firstGregorianDay.dayOfWeek.value - 1
-
     repeat(weekdayOffset) {
         addCell("", false)
     }
 
-    for (day in 1..daysInMonth) {
-        val arabicDay = day.toString()
+    val nextHijriMonth = firstHijriDay.plus(
+        1,
+        java.time.temporal.ChronoUnit.MONTHS
+    )
+    val daysInMonth = java.time.temporal.ChronoUnit.DAYS
+        .between(firstHijriDay, nextHijriMonth).toInt()
+
+    for (day in 0 until daysInMonth) {
+        val gregorianDate = firstGregorianDay.plusDays(day.toLong())
+        val adjustedHijri = HijrahDate.from(
+            gregorianDate.plusDays(offsetDays)
+        )
+
+        val arabicDay = adjustedHijri.get(
+            java.time.temporal.ChronoField.DAY_OF_MONTH
+        ).toString()
             .replace('0', '٠')
             .replace('1', '١')
             .replace('2', '٢')
@@ -232,6 +233,7 @@ private fun renderCalendar() {
         addCell(arabicDay, false)
     }
 }
+
 
 
     private fun addCell(value: String, isHeader: Boolean) {
