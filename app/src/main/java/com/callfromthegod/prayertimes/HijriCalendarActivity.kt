@@ -253,7 +253,18 @@ private fun renderCalendar() {
             text = value
             gravity = Gravity.CENTER
             textSize = if (isHeader) 12f else 15f
-            setTextColor(if (isHeader) gold else ivory)
+            setTextColor(
+    if (isToday) Color.WHITE
+    else if (isHeader) gold
+    else ivory
+)
+
+if (isToday) {
+    background = android.graphics.drawable.GradientDrawable().apply {
+        shape = android.graphics.drawable.GradientDrawable.OVAL
+        setColor(Color.rgb(35, 130, 75))
+    }
+}
             setPadding(2, 12, 2, 12)
         }
 
