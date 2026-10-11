@@ -107,6 +107,17 @@
             android:background="@drawable/prayer_card"
             android:layout_marginBottom="10dp" />
 
+    <TextView
+        android:id="@+id/zawal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Zawāl (Solar Noon)"
+        android:textColor="#174A35"
+        android:textSize="20sp"
+        android:padding="18dp"
+        android:background="@drawable/prayer_card"
+        android:layout_marginBottom="10dp" />
+        
         <TextView
             android:id="@+id/dhuhr"
             android:layout_width="match_parent"
