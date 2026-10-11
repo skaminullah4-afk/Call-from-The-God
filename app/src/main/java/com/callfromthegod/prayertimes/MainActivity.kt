@@ -4,9 +4,13 @@ import android.content.Intent
 import android.app.Activity
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
+import android.graphics.Color
+import android.view.ViewGroup
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -15,6 +19,7 @@ import java.util.Locale
 class MainActivity : Activity() {
 
     private lateinit var citySpinner: Spinner
+    private lateinit var asrMethodSpinner: Spinner
     private lateinit var citySubtitle: TextView
     private lateinit var dateText: TextView
     private lateinit var hijriDateText: TextView
@@ -26,19 +31,18 @@ class MainActivity : Activity() {
     private lateinit var maghrib: TextView
     private lateinit var isha: TextView
 
+    private val asrMethods = listOf("Hanafi", "Shafi'i")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        findViewById<android.widget.Button>(
-            R.id.openHijriCalendar
-        ).setOnClickListener {
-            startActivity(
-                Intent(this, HijriCalendarActivity::class.java)
-            )
+        findViewById<Button>(R.id.openHijriCalendar).setOnClickListener {
+            startActivity(Intent(this, HijriCalendarActivity::class.java))
         }
 
         citySpinner = findViewById(R.id.citySpinner)
+        asrMethodSpinner = findViewById(R.id.asrMethodSpinner)
         citySubtitle = findViewById(R.id.citySubtitle)
         dateText = findViewById(R.id.dateText)
         hijriDateText = findViewById(R.id.hijriDateText)
@@ -52,51 +56,45 @@ class MainActivity : Activity() {
 
         val cities = PrayerCities.all
 
-        val adapter = object : ArrayAdapter<String>(
-            this,
-            android.R.layout.simple_spinner_item,
-            cities.map { it.name }
-        ) {
-            override fun getView(
-                position: Int,
-                convertView: View?,
-                parent: android.view.ViewGroup
-            ): View {
-                val view = super.getView(
-                    position, convertView, parent
-                )
-                (view as TextView).setTextColor(
-                    android.graphics.Color.parseColor("#174A35")
-                )
-                return view
-            }
+        fun makeAdapter(items: List<String>): ArrayAdapter<String> {
+            return object : ArrayAdapter<String>(
+                this,
+                android.R.layout.simple_spinner_item,
+                items
+            ) {
+                override fun getView(
+                    position: Int,
+                    convertView: View?,
+                    parent: ViewGroup
+                ): View {
+                    return super.getView(position, convertView, parent).also {
+                        (it as TextView).setTextColor(Color.parseColor("#174A35"))
+                    }
+                }
 
-            override fun getDropDownView(
-                position: Int,
-                convertView: View?,
-                parent: android.view.ViewGroup
-            ): View {
-                val view = super.getDropDownView(
-                    position, convertView, parent
-                )
-                (view as TextView).setTextColor(
-                    android.graphics.Color.parseColor("#174A35")
-                )
-                view.setBackgroundColor(
-                    android.graphics.Color.parseColor("#F7F0DF")
-                )
-                return view
+                override fun getDropDownView(
+                    position: Int,
+                    convertView: View?,
+                    parent: ViewGroup
+                ): View {
+                    return super.getDropDownView(
+                        position, convertView, parent
+                    ).also {
+                        (it as TextView).setTextColor(Color.parseColor("#174A35"))
+                        it.setBackgroundColor(Color.parseColor("#F7F0DF"))
+                    }
+                }
+            }.apply {
+                setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
         }
 
-        adapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
-        )
-        citySpinner.adapter = adapter
+        citySpinner.adapter = makeAdapter(cities.map { it.name })
+        asrMethodSpinner.adapter = makeAdapter(asrMethods)
 
-        findViewById<android.widget.Button>(
-            R.id.openQibla
-        ).setOnClickListener {
+        asrMethodSpinner.setSelection(0)
+
+        findViewById<Button>(R.id.openQibla).setOnClickListener {
             val city = cities[citySpinner.selectedItemPosition]
             val intent = Intent(this, QiblaActivity::class.java)
             intent.putExtra("latitude", city.latitude)
@@ -107,26 +105,24 @@ class MainActivity : Activity() {
         val kendraparaIndex = cities.indexOfFirst {
             it.name == "Kendrapara"
         }
-        citySpinner.setSelection(
-            if (kendraparaIndex >= 0) kendraparaIndex else 0
-        )
+        citySpinner.setSelection(if (kendraparaIndex >= 0) kendraparaIndex else 0)
 
-        citySpinner.onItemSelectedListener =
-            object : android.widget.AdapterView.OnItemSelectedListener {
-
-                override fun onItemSelected(
-                    parent: android.widget.AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    updatePrayerTimes(cities[position])
-                }
-
-                override fun onNothingSelected(
-                    parent: android.widget.AdapterView<*>?
-                ) {}
+        val listener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val city = cities[citySpinner.selectedItemPosition]
+                updatePrayerTimes(city)
             }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+        citySpinner.onItemSelectedListener = listener
+        asrMethodSpinner.onItemSelectedListener = listener
     }
 
     private fun updatePrayerTimes(city: PrayerCity) {
@@ -134,10 +130,7 @@ class MainActivity : Activity() {
         val today = LocalDate.now(zone)
 
         dateText.text = today.format(
-            DateTimeFormatter.ofPattern(
-                "EEEE, d MMMM yyyy",
-                Locale.ENGLISH
-            )
+            DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy", Locale.ENGLISH)
         )
 
         hijriDateText.text = HijriCalendarHelper.formatHijriDate(
@@ -148,18 +141,26 @@ class MainActivity : Activity() {
         citySubtitle.text =
             "${city.name.uppercase(Locale.ENGLISH)} PRAYER TIMES"
 
+        val selectedAsrMethod =
+            if (asrMethodSpinner.selectedItemPosition == 1) {
+                PrayerTimeCalculator.AsrMethod.SHAFII
+            } else {
+                PrayerTimeCalculator.AsrMethod.HANAFI
+            }
+
         val times = PrayerTimeCalculator.getPrayerTimes(
             lat = city.latitude,
             lng = city.longitude,
             date = today,
-            timeZone = city.timeZone
+            timeZone = city.timeZone,
+            asrMethod = selectedAsrMethod
         )
 
         fajr.text = "Fajr: ${times.fajr}"
         sunrise.text = "Sunrise: ${times.sunrise}"
         zawal.text = "Zawāl (approx. solar noon): ${times.zawal}"
         dhuhr.text = "Dhuhr: ${times.dhuhr}"
-        asr.text = "Asr (Hanafi): ${times.asrHanafi}"
+        asr.text = "Asr (${asrMethods[asrMethodSpinner.selectedItemPosition]}): ${times.asrHanafi}"
         maghrib.text = "Maghrib: ${times.maghrib}"
         isha.text = "Isha: ${times.isha}"
     }
@@ -171,9 +172,7 @@ class MainActivity : Activity() {
             val city = PrayerCities.all.getOrNull(
                 citySpinner.selectedItemPosition
             )
-            val zone = ZoneId.of(
-                city?.timeZone ?: "Asia/Kolkata"
-            )
+            val zone = ZoneId.of(city?.timeZone ?: "Asia/Kolkata")
             val today = LocalDate.now(zone)
 
             hijriDateText.text = HijriCalendarHelper.formatHijriDate(
