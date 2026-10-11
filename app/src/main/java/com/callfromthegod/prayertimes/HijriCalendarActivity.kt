@@ -186,7 +186,9 @@ val next = Button(this).apply {
 
         calendarGrid = GridLayout(this).apply {
             columnCount = 7
-            setPadding(0, 20, 0, 0)
+            alignmentMode = GridLayout.ALIGN_BOUNDS
+            useDefaultMargins = false
+            setPadding(8, 20, 8, 0)
         }
         root.addView(
             calendarGrid,
