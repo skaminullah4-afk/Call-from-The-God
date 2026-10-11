@@ -18,6 +18,11 @@ object PrayerTimeCalculator {
 
     private val defaultZone = ZoneId.of("Asia/Kolkata")
 
+    enum class AsrMethod {
+        HANAFI,
+        SHAFII
+    }
+
     data class DailyPrayerTimes(
         val fajr: String,
         val sunrise: String,
@@ -31,14 +36,20 @@ object PrayerTimeCalculator {
         lat: Double = DEFAULT_LAT,
         lng: Double = DEFAULT_LNG,
         date: LocalDate = LocalDate.now(defaultZone),
-        timeZone: String = "Asia/Kolkata"
+        timeZone: String = "Asia/Kolkata",
+        asrMethod: AsrMethod = AsrMethod.HANAFI
     ): DailyPrayerTimes {
 
         val zone = ZoneId.of(timeZone)
         val coordinates = Coordinates(lat, lng)
 
-        val params = CalculationMethod.MUSLIM_WORLD_LEAGUE.parameters.copy(
-            madhab = Madhab.HANAFI
+        val madhab = when (asrMethod) {
+            AsrMethod.HANAFI -> Madhab.HANAFI
+            AsrMethod.SHAFII -> Madhab.SHAFI
+        }
+
+        val params = CalculationMethod.KARACHI.parameters.copy(
+            madhab = madhab
         )
 
         val dateComponents = DateComponents(
