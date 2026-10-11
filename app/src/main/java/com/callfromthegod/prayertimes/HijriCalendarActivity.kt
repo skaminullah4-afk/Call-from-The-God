@@ -70,11 +70,37 @@ class HijriCalendarActivity : Activity() {
         val adjustmentOptions = (-15..15).map { value ->
             if (value > 0) "+$value" else value.toString()
         }
-        val adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_item,
-            adjustmentOptions
-        )
+        val adapter = object : ArrayAdapter<String>(
+    this,
+    android.R.layout.simple_spinner_item,
+    adjustmentOptions
+) {
+    override fun getView(
+        position: Int,
+        convertView: android.view.View?,
+        parent: android.view.ViewGroup
+    ): android.view.View {
+        return (super.getView(position, convertView, parent) as TextView)
+            .apply {
+                setTextColor(Color.rgb(247, 240, 223))
+                textSize = 16f
+            }
+    }
+
+    override fun getDropDownView(
+        position: Int,
+        convertView: android.view.View?,
+        parent: android.view.ViewGroup
+    ): android.view.View {
+        return (super.getDropDownView(position, convertView, parent) as TextView)
+            .apply {
+                setTextColor(Color.rgb(247, 240, 223))
+                setBackgroundColor(Color.rgb(33, 29, 22))
+                textSize = 16f
+                setPadding(20, 14, 20, 14)
+            }
+    }
+        }
         adapter.setDropDownViewResource(
             android.R.layout.simple_spinner_dropdown_item
         )
