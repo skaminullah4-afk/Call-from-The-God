@@ -14,7 +14,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CALL FROM THE GOD"
+            android:text="Salah Times"
             android:textColor="#D4AF62"
             android:textSize="26sp"
             android:textStyle="bold"
@@ -25,7 +25,8 @@
             android:id="@+id/citySubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="PRAYER TIMES"
+            android:text="حي على الصلاة\nحي على الفلاح"
+            android:textSize="22sp"
             android:textColor="#F7F0DF"
             android:textSize="16sp"
             android:layout_marginTop="8dp"
