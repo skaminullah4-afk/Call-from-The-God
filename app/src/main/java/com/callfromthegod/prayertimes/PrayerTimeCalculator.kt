@@ -26,6 +26,7 @@ object PrayerTimeCalculator {
     data class DailyPrayerTimes(
         val fajr: String,
         val sunrise: String,
+        val zawal: String,
         val dhuhr: String,
         val asrHanafi: String,
         val maghrib: String,
