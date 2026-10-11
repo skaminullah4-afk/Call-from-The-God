@@ -272,6 +272,7 @@ class MainActivity : Activity() {
     private fun updatePrayerTimes(city: PrayerCity) {
         activeLatitude = city.latitude
         activeLongitude = city.longitude
+        activeTimeZone = city.timeZone
         val zone = ZoneId.of(city.timeZone)
         val today = LocalDate.now(zone)
 
