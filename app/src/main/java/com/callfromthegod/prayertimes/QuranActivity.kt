@@ -298,10 +298,21 @@ class QuranActivity : Activity() {
                     // Remove only the Bismillah prefix from the displayed
                     // first verse, leaving the source file unchanged.
                     val firstItem = verses.first()
-                    val remainingText = firstItem.second.replaceFirst(
-                        Regex("^\\s*بسم\\s+الله\\s+الرحمن\\s+الرحيم\\s*"),
-                        ""
-                    ).trim()
+val normalizedFirst = normalizeArabic(firstItem.second)
+val normalizedBismillah = normalizeArabic(bismillah)
+
+val remainingText = if (
+    normalizedFirst.startsWith(normalizedBismillah)
+) {
+    firstItem.second
+        .replaceFirst(
+            Regex("^\\s*بِسْمِ\\s+ٱ?للَّهِ\\s+ٱلرَّحْمَٰنِ\\s+ٱلرَّحِيمِ\\s*"),
+            ""
+        )
+        .trim()
+} else {
+    firstItem.second
+}
 
                     displayedVerses = if (remainingText.isNotEmpty()) {
                         listOf(firstItem.first to remainingText) + verses.drop(1)
