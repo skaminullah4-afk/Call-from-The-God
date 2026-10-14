@@ -53,9 +53,27 @@ class QuranActivity : Activity() {
             .trim()
 
     private fun beginsWithBismillah(text: String): Boolean {
-        val normalized = normalizeArabic(text)
-        val normalizedBismillah = normalizeArabic(bismillah)
-        return normalized.startsWith(normalizedBismillah)
+    val normalized = normalizeArabic(text)
+        .replace("ٱ", "ا")
+        .replace("أ", "ا")
+        .replace("إ", "ا")
+        .replace("آ", "ا")
+        .replace("ى", "ي")
+        .replace("ة", "ه")
+        .replace(Regex("\\s+"), " ")
+        .trim()
+
+    val normalizedBismillah = normalizeArabic(bismillah)
+        .replace("ٱ", "ا")
+        .replace("أ", "ا")
+        .replace("إ", "ا")
+        .replace("آ", "ا")
+        .replace("ى", "ي")
+        .replace("ة", "ه")
+        .replace(Regex("\\s+"), " ")
+        .trim()
+
+    return normalized.startsWith(normalizedBismillah)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
