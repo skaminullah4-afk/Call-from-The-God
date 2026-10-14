@@ -23,7 +23,7 @@ class QuranActivity : Activity() {
 
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(20, 24, 20, 24)
+            setPadding(16, 20, 16, 24)
             setBackgroundColor(Color.rgb(12, 12, 12))
         }
 
@@ -33,7 +33,7 @@ class QuranActivity : Activity() {
             setTextColor(gold)
             gravity = Gravity.CENTER
             typeface = Typeface.DEFAULT_BOLD
-            setPadding(0, 8, 0, 20)
+            setPadding(0, 8, 0, 8)
         }
         root.addView(title)
 
@@ -42,31 +42,42 @@ class QuranActivity : Activity() {
             textSize = 13f
             setTextColor(gold)
             gravity = Gravity.CENTER
-            setPadding(0, 0, 0, 24)
+            setPadding(0, 0, 0, 20)
         }
         root.addView(subtitle)
 
         val glass = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            gravity = Gravity.CENTER
-            setPadding(18, 28, 18, 28)
+            setPadding(18, 24, 18, 24)
             background = GradientDrawable().apply {
                 setColor(Color.argb(18, 255, 255, 255))
                 setStroke(1, Color.argb(100, 232, 198, 105))
-                cornerRadius = 28f
+                cornerRadius = 24f
             }
         }
 
-        val message = TextView(this).apply {
-            text = "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ"
-            textSize = 25f
+        val quranText = TextView(this).apply {
             setTextColor(gold)
+            textSize = 25f
             gravity = Gravity.CENTER
             textDirection = TextView.TEXT_DIRECTION_RTL
-            setLineSpacing(12f, 1f)
+            typeface = Typeface.create("serif", Typeface.NORMAL)
+            setLineSpacing(12f, 1.15f)
         }
+
+        try {
+            val text = assets.open("quran-uthmani.txt")
+                .bufferedReader(Charsets.UTF_8)
+                .use { it.readText() }
+
+            quranText.text = text
+        } catch (e: Exception) {
+            quranText.text =
+                "Could not load Qur'an text.\nPlease check the installed text asset."
+        }
+
         glass.addView(
-            message,
+            quranText,
             LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
