@@ -319,17 +319,17 @@ class QuranActivity : Activity() {
 val normalizedFirst = normalizeArabic(firstItem.second)
 val normalizedBismillah = normalizeArabic(bismillah)
 
-val remainingText = if (
-    normalizedFirst.startsWith(normalizedBismillah)
-) {
-    firstItem.second
-        .replaceFirst(
-            Regex("^\\s*بِسْمِ\\s+ٱ?للَّهِ\\s+ٱلرَّحْمَٰنِ\\s+ٱلرَّحِيمِ\\s*"),
-            ""
-        )
-        .trim()
+val remainingText = firstItem.second
+    .replaceFirst(
+        Regex("^\\s*بِسْمِ\\s+ٱللَّهِ\\s+ٱلرَّحْمَـٰنِ\\s+ٱلرَّحِيمِ\\s*"),
+        ""
+    )
+    .trim()
+
+displayedVerses = if (remainingText.isNotEmpty()) {
+    listOf(firstItem.first to remainingText) + verses.drop(1)
 } else {
-    firstItem.second
+    verses.drop(1)
 }
 
                     displayedVerses = if (remainingText.isNotEmpty()) {
