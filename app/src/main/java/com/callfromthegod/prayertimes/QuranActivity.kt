@@ -70,14 +70,15 @@ class QuranActivity : Activity() {
         root.addView(subtitle)
 
         val spinner = Spinner(this).apply {
-            background = GradientDrawable().apply {
-                setColor(Color.rgb(30, 30, 30))
-                setStroke(1, gold)
-                cornerRadius = 12f
-            }
-            popupBackground = GradientDrawable().apply {
-                setColor(Color.rgb(30, 30, 30))
-            }
+    setBackground(GradientDrawable().apply {
+        setColor(Color.rgb(30, 30, 30))
+        setStroke(1, gold)
+        cornerRadius = 12f
+    })
+
+    popupBackground = GradientDrawable().apply {
+        setColor(Color.rgb(30, 30, 30))
+    }
         }
 
         val options = (1..114).map { "Surah ${it}" }
