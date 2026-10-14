@@ -7,24 +7,33 @@ import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.LinearLayout
 import android.widget.ScrollView
+import android.widget.Spinner
 import android.widget.TextView
 
 class QuranActivity : Activity() {
 
     private val gold = Color.rgb(232, 198, 105)
+    private val backgroundColor = Color.rgb(12, 12, 12)
+
+    private lateinit var surahSpinner: Spinner
+    private lateinit var quranText: TextView
+
+    private val surahs = (1..114).toList()
+    private val versesBySurah = mutableMapOf<Int, MutableList<String>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        window.statusBarColor = Color.rgb(12, 12, 12)
-        window.navigationBarColor = Color.rgb(12, 12, 12)
+        window.statusBarColor = backgroundColor
+        window.navigationBarColor = backgroundColor
 
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
             setPadding(16, 20, 16, 24)
-            setBackgroundColor(Color.rgb(12, 12, 12))
+            setBackgroundColor(backgroundColor)
         }
 
         val title = TextView(this).apply {
@@ -42,9 +51,32 @@ class QuranActivity : Activity() {
             textSize = 13f
             setTextColor(gold)
             gravity = Gravity.CENTER
-            setPadding(0, 0, 0, 20)
+            setPadding(0, 0, 0, 16)
         }
         root.addView(subtitle)
+
+        surahSpinner = Spinner(this)
+        val surahNames = surahs.map { "Surah $it" }
+
+        surahSpinner.adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_dropdown_item,
+            surahNames
+        ).apply {
+            setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item
+            )
+        }
+
+        root.addView(
+            surahSpinner,
+            LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
+                bottomMargin = 16
+            }
+        )
 
         val glass = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -56,24 +88,13 @@ class QuranActivity : Activity() {
             }
         }
 
-        val quranText = TextView(this).apply {
+        quranText = TextView(this).apply {
             setTextColor(gold)
             textSize = 25f
             gravity = Gravity.CENTER
             textDirection = TextView.TEXT_DIRECTION_RTL
             typeface = Typeface.create("serif", Typeface.NORMAL)
             setLineSpacing(12f, 1.15f)
-        }
-
-        try {
-            val text = assets.open("quran-uthmani.txt")
-                .bufferedReader(Charsets.UTF_8)
-                .use { it.readText() }
-
-            quranText.text = text
-        } catch (e: Exception) {
-            quranText.text =
-                "Could not load Qur'an text.\nPlease check the installed text asset."
         }
 
         glass.addView(
@@ -84,16 +105,88 @@ class QuranActivity : Activity() {
             )
         )
 
+        val scroll = ScrollView(this).apply {
+            isFillViewport = true
+            addView(glass)
+        }
+
         root.addView(
-            glass,
+            scroll,
             LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                0,
+                1f
             )
         )
 
-        val scroll = ScrollView(this)
-        scroll.addView(root)
-        setContentView(scroll)
+        setContentView(root)
+
+        try {
+            assets.open("quran-uthmani.txt")
+                .bufferedReader(Charsets.UTF_8)
+                .useLines { lines ->
+                    lines.forEach { line ->
+                        val firstSeparator = line.indexOf('|')
+                        val secondSeparator =
+                            if (firstSeparator >= 0) {
+                                line.indexOf('|', firstSeparator + 1)
+                            } else {
+                                -1
+                            }
+
+                        if (firstSeparator > 0 &&
+                            secondSeparator > firstSeparator
+                        ) {
+                            val surahNumber =
+                                line.substring(0, firstSeparator).toIntOrNull()
+
+                            val arabicText =
+                                line.substring(secondSeparator + 1)
+
+                            if (surahNumber in 1..114 &&
+                                arabicText.isNotEmpty()
+                            ) {
+                                versesBySurah
+                                    .getOrPut(surahNumber!!) {
+                                        mutableListOf()
+                                    }
+                                    .add(arabicText)
+                            }
+                        }
+                    }
+                }
+
+            showSurah(1)
+
+            surahSpinner.onItemSelectedListener =
+                object : android.widget.AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: android.widget.AdapterView<*>?,
+                        view: android.view.View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        showSurah(surahs[position])
+                    }
+
+                    override fun onNothingSelected(
+                        parent: android.widget.AdapterView<*>?
+                    ) {}
+                }
+
+        } catch (e: Exception) {
+            quranText.text =
+                "Could not load Qur'an text.\nPlease check the installed text asset."
+        }
+    }
+
+    private fun showSurah(number: Int) {
+        val verses = versesBySurah[number]
+
+        quranText.text = if (verses.isNullOrEmpty()) {
+            "No verses found for Surah $number."
+        } else {
+            verses.joinToString("\n\n")
+        }
     }
 }
