@@ -76,7 +76,7 @@ class QuranActivity : Activity() {
         cornerRadius = 12f
     })
 
-    popupBackground = GradientDrawable().apply {
+    setPopupBackgroundDrawable(GradientDrawable().apply {
         setColor(Color.rgb(30, 30, 30))
     }
         }
