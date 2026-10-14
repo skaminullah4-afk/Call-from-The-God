@@ -19,8 +19,9 @@ class QuranActivity : Activity() {
 
     private val gold = Color.rgb(232, 198, 105)
     private val dark = Color.rgb(12, 12, 12)
-    private val versesBySurah = mutableMapOf<Int, MutableList<String>>()
+    private val versesBySurah = mutableMapOf<Int, MutableList<Pair<Int, String>>>()
     private lateinit var quranText: TextView
+    private lateinit var scroll: ScrollView
 
     private fun arabicNumber(number: Int): String =
         number.toString().map {
@@ -70,18 +71,18 @@ class QuranActivity : Activity() {
         root.addView(subtitle)
 
         val spinner = Spinner(this).apply {
-    setBackground(GradientDrawable().apply {
-        setColor(Color.rgb(30, 30, 30))
-        setStroke(1, gold)
-        cornerRadius = 12f
-    })
+            setBackground(GradientDrawable().apply {
+                setColor(Color.rgb(30, 30, 30))
+                setStroke(1, gold)
+                cornerRadius = 12f
+            })
 
-    setPopupBackgroundDrawable(GradientDrawable().apply {
-        setColor(Color.rgb(30, 30, 30))
-    })
+            setPopupBackgroundDrawable(GradientDrawable().apply {
+                setColor(Color.rgb(30, 30, 30))
+            })
         }
 
-        val options = (1..114).map { "Surah ${it}" }
+        val options = (1..114).map { "Surah $it" }
 
         val adapter = object : ArrayAdapter<String>(
             this,
@@ -115,6 +116,7 @@ class QuranActivity : Activity() {
                 }
             }
         }
+
         adapter.setDropDownViewResource(
             android.R.layout.simple_spinner_dropdown_item
         )
@@ -157,7 +159,7 @@ class QuranActivity : Activity() {
             )
         )
 
-        val scroll = ScrollView(this).apply {
+        scroll = ScrollView(this).apply {
             isFillViewport = true
             addView(glass)
         }
@@ -179,20 +181,27 @@ class QuranActivity : Activity() {
                 .useLines { lines ->
                     lines.forEach { line ->
                         val first = line.indexOf('|')
-                        val second = if (first >= 0)
-                            line.indexOf('|', first + 1) else -1
+                        val second = if (first >= 0) {
+                            line.indexOf('|', first + 1)
+                        } else {
+                            -1
+                        }
 
                         if (first > 0 && second > first) {
-                            val surah = line.substring(0, first).toIntOrNull()
+                            val surah =
+                                line.substring(0, first).toIntOrNull()
+                            val ayah =
+                                line.substring(first + 1, second).toIntOrNull()
                             val arabic = line.substring(second + 1)
 
                             if (surah != null &&
+                                ayah != null &&
                                 surah in 1..114 &&
                                 arabic.isNotEmpty()
                             ) {
                                 versesBySurah.getOrPut(surah) {
                                     mutableListOf()
-                                }.add(arabic)
+                                }.add(ayah to arabic)
                             }
                         }
                     }
@@ -208,18 +217,36 @@ class QuranActivity : Activity() {
                 val display = StringBuilder()
                 display.append("سُورَةُ ${arabicNumber(number)}\n\n")
 
-                if (number != 1 && number != 9) {
-                    display.append("بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\n\n")
+                if (number == 1) {
+                    display.append(
+                        "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\n\n"
+                    )
                 }
 
-                verses.forEachIndexed { index, verse ->
+                val displayedVerses = if (number == 1) {
+                    // Show Al-Fatiha's Bismillah separately.
+                    // Alhamdulillahi is displayed as verse 1.
+                    verses.drop(1)
+                } else {
+                    verses
+                }
+
+                displayedVerses.forEachIndexed { index, item ->
                     if (index > 0) display.append(" ")
-                    display.append(verse)
+                    display.append(item.second)
+
+                    val displayedAyahNumber = if (number == 1) {
+                        index + 1
+                    } else {
+                        item.first
+                    }
+
                     display.append(" ۝")
-                    display.append(arabicNumber(index + 1))
+                    display.append(arabicNumber(displayedAyahNumber))
                 }
 
                 quranText.text = display.toString()
+                scroll.post { scroll.scrollTo(0, 0) }
             }
 
             showSurah(1)
@@ -233,7 +260,6 @@ class QuranActivity : Activity() {
                         id: Long
                     ) {
                         showSurah(position + 1)
-                        scrollToTop()
                     }
 
                     override fun onNothingSelected(
@@ -243,15 +269,6 @@ class QuranActivity : Activity() {
 
         } catch (e: Exception) {
             quranText.text = "Could not load Qur'an text."
-        }
-    }
-
-    private fun scrollToTop() {
-        // The selected Surah is displayed from its beginning.
-        quranText.post {
-            (quranText.parent as? View)?.parent.let { parent ->
-                (parent as? ScrollView)?.smoothScrollTo(0, 0)
-            }
         }
     }
 }
