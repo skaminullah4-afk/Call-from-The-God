@@ -281,7 +281,7 @@ class QuranActivity : Activity() {
                 val display = StringBuilder()
                 display.append("سُورَةُ ${arabicNumber(number)}\n\n")
 
-                var displayedVerses = verses
+                var displayedVerses: List<Pair<Int, String>> = verses
 
                 if (number == 1) {
                     // Al-Fatiha: show Bismillah separately.
