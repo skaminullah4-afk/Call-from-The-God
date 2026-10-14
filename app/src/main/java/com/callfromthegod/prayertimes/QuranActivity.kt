@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.Spinner
@@ -19,9 +20,15 @@ class QuranActivity : Activity() {
 
     private val gold = Color.rgb(232, 198, 105)
     private val dark = Color.rgb(12, 12, 12)
-    private val versesBySurah = mutableMapOf<Int, MutableList<Pair<Int, String>>>()
+    private val versesBySurah =
+        mutableMapOf<Int, MutableList<Pair<Int, String>>>()
+
     private lateinit var quranText: TextView
     private lateinit var scroll: ScrollView
+    private var fontSize = 25f
+
+    private val bismillah =
+        "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ"
 
     private fun arabicNumber(number: Int): String =
         number.toString().map {
@@ -38,6 +45,18 @@ class QuranActivity : Activity() {
                 else -> '٩'
             }
         }.joinToString("")
+
+    private fun normalizeArabic(text: String): String =
+        text.replace("ـ", "")
+            .replace(Regex("[\\u064B-\\u065F\\u0670]"), "")
+            .replace("ٱ", "ا")
+            .trim()
+
+    private fun beginsWithBismillah(text: String): Boolean {
+        val normalized = normalizeArabic(text)
+        val normalizedBismillah = normalizeArabic(bismillah)
+        return normalized.startsWith(normalizedBismillah)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,9 +136,6 @@ class QuranActivity : Activity() {
             }
         }
 
-        adapter.setDropDownViewResource(
-            android.R.layout.simple_spinner_dropdown_item
-        )
         spinner.adapter = adapter
 
         root.addView(
@@ -128,9 +144,57 @@ class QuranActivity : Activity() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
             ).apply {
-                bottomMargin = 14
+                bottomMargin = 8
             }
         )
+
+        val fontControls = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER
+            setPadding(0, 0, 0, 10)
+        }
+
+        fun makeFontButton(label: String): Button =
+            Button(this).apply {
+                text = label
+                textSize = 18f
+                setTextColor(gold)
+                background = GradientDrawable().apply {
+                    setColor(Color.rgb(30, 30, 30))
+                    setStroke(1, gold)
+                    cornerRadius = 12f
+                }
+                isAllCaps = false
+            }
+
+        val decreaseButton = makeFontButton("A−")
+        val increaseButton = makeFontButton("A+")
+
+        fontControls.addView(
+            decreaseButton,
+            LinearLayout.LayoutParams(100, 48).apply {
+                rightMargin = 12
+            }
+        )
+        fontControls.addView(
+            increaseButton,
+            LinearLayout.LayoutParams(100, 48)
+        )
+        root.addView(fontControls)
+
+        increaseButton.setOnClickListener {
+            if (fontSize < 44f) {
+                fontSize += 2f
+                quranText.textSize = fontSize
+            }
+        }
+
+        decreaseButton.setOnClickListener {
+            if (fontSize > 16f) {
+                fontSize -= 2f
+                quranText.textSize = fontSize
+            }
+        }
 
         val glass = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -144,7 +208,7 @@ class QuranActivity : Activity() {
 
         quranText = TextView(this).apply {
             setTextColor(gold)
-            textSize = 25f
+            textSize = fontSize
             gravity = Gravity.CENTER
             textDirection = View.TEXT_DIRECTION_RTL
             typeface = Typeface.create("serif", Typeface.NORMAL)
@@ -217,32 +281,47 @@ class QuranActivity : Activity() {
                 val display = StringBuilder()
                 display.append("سُورَةُ ${arabicNumber(number)}\n\n")
 
-                if (number == 1) {
-                    display.append(
-                        "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\n\n"
-                    )
-                }
+                var displayedVerses = verses
 
-                val displayedVerses = if (number == 1) {
-                    // Show Al-Fatiha's Bismillah separately.
-                    // Alhamdulillahi is displayed as verse 1.
-                    verses.drop(1)
-                } else {
-                    verses
+                if (number == 1) {
+                    // Al-Fatiha: show Bismillah separately.
+                    display.append("$bismillah\n\n")
+
+                    // The first source record is Bismillah.
+                    displayedVerses = verses.drop(1)
+                } else if (number != 9 &&
+                    beginsWithBismillah(verses.first().second)
+                ) {
+                    // Move an existing Bismillah to the top.
+                    display.append("$bismillah\n\n")
+
+                    // Remove only the Bismillah prefix from the displayed
+                    // first verse, leaving the source file unchanged.
+                    val firstItem = verses.first()
+                    val remainingText = firstItem.second.replaceFirst(
+                        Regex("^\\s*بسم\\s+الله\\s+الرحمن\\s+الرحيم\\s*"),
+                        ""
+                    ).trim()
+
+                    displayedVerses = if (remainingText.isNotEmpty()) {
+                        listOf(firstItem.first to remainingText) + verses.drop(1)
+                    } else {
+                        verses.drop(1)
+                    }
                 }
 
                 displayedVerses.forEachIndexed { index, item ->
                     if (index > 0) display.append(" ")
                     display.append(item.second)
 
-                    val displayedAyahNumber = if (number == 1) {
+                    val ayahNumber = if (number == 1) {
                         index + 1
                     } else {
                         item.first
                     }
 
                     display.append(" ۝")
-                    display.append(arabicNumber(displayedAyahNumber))
+                    display.append(arabicNumber(ayahNumber))
                 }
 
                 quranText.text = display.toString()
