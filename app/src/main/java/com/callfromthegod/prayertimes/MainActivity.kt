@@ -119,6 +119,10 @@ class MainActivity : Activity() {
         citySpinner.adapter = makeAdapter(cities.map { it.name })
         asrMethodSpinner.adapter = makeAdapter(asrMethods)
 
+findViewById<Button>(R.id.openQuran).setOnClickListener {
+    startActivity(Intent(this, QuranActivity::class.java))
+}
+   
         findViewById<Button>(R.id.openQibla).setOnClickListener {
             val city = cities[citySpinner.selectedItemPosition]
             val intent = Intent(this, QiblaActivity::class.java)
