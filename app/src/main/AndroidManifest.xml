@@ -25,6 +25,10 @@
         android:exported="false" />
 
         <activity
+    android:name=".QuranSelectionActivity"
+    android:exported="false" />
+
+        <activity
     android:name=".AsmaUlHusnaActivity"
     android:exported="false" />
 
