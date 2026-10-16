@@ -291,7 +291,14 @@ class QuranActivity : Activity() {
                 }
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-            showSurah(1)
+            val selectionType = intent.getStringExtra("selection_type") ?: "surah"
+val selectionNumber = intent.getIntExtra("selection_number", 1)
+
+if (selectionType == "parah") {
+    showJuz(selectionNumber)
+} else {
+    showSurah(selectionNumber)
+}
         } catch (e: Exception) {
             quranText.text = "Could not load Qur'an text."
         }
