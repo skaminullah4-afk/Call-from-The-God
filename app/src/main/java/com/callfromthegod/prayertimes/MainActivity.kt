@@ -122,6 +122,10 @@ class MainActivity : Activity() {
 findViewById<Button>(R.id.openQuran).setOnClickListener {
     startActivity(Intent(this, QuranActivity::class.java))
 }
+
+findViewById<Button>(R.id.openAsmaUlHusna).setOnClickListener {
+    startActivity(Intent(this, AsmaUlHusnaActivity::class.java))
+}
    
         findViewById<Button>(R.id.openQibla).setOnClickListener {
             val city = cities[citySpinner.selectedItemPosition]
