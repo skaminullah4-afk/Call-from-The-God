@@ -23,8 +23,6 @@ private val ink = Color.rgb(245, 222, 165)
     private lateinit var surahTab: TextView
     private lateinit var parahTab: TextView
 
-    private var showingParah = false
-
     private val surahNames = listOf(
         "الْفَاتِحَة", "الْبَقَرَة", "آلِ عِمْرَان", "النِّسَاء",
         "الْمَائِدَة", "الْأَنْعَام", "الْأَعْرَاف", "الْأَنْفَال",
@@ -125,7 +123,6 @@ private val ink = Color.rgb(245, 222, 165)
     }
 
     private fun showList(parah: Boolean) {
-        showingParah = parah
 
         surahTab.setBackgroundColor(if (!parah) gold else dark)
 parahTab.setBackgroundColor(if (parah) gold else dark)
