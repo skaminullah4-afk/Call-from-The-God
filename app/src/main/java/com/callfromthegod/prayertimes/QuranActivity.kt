@@ -314,8 +314,10 @@ val selectionNumber = intent.getIntExtra("selection_number", 1)
 dropdownContainer.visibility = View.GONE
 
 if (selectionType == "parah") {
+    juzSpinner.setSelection(selectionNumber - 1)
     showJuz(selectionNumber)
 } else {
+    surahSpinner.setSelection(selectionNumber - 1)
     showSurah(selectionNumber)
 }
         } catch (e: Exception) {
