@@ -146,9 +146,9 @@ private val ink = Color.rgb(245, 222, 165)
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(dp(14), dp(12), dp(12), dp(12))
                 background = GradientDrawable().apply {
-                    setColor(Color.WHITE)
-                    setStroke(dp(1), Color.rgb(225, 225, 225))
-                    cornerRadius = dp(22).toFloat()
+    setColor(cardDark)
+    setStroke(dp(1), gold)
+    cornerRadius = dp(22).toFloat()
                 }
             }
 
