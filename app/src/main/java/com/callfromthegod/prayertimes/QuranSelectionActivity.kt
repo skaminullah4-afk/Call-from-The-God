@@ -139,7 +139,7 @@ private val ink = Color.rgb(245, 222, 165)
         val names = if (parah) parahNames else surahNames
 
         names.forEachIndexed { index, name ->
-            val accent = colors[index % colors.size]
+            val accent = gold
 
             val card = LinearLayout(this).apply {
                 orientation = LinearLayout.HORIZONTAL
