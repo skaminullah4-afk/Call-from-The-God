@@ -71,6 +71,17 @@ class QuranActivity : Activity() {
             setBackgroundColor(dark)
         }
 
+        val backButton = Button(this).apply {
+    text = "← Back to Surah / Parah"
+    textSize = 16f
+    setTextColor(Color.WHITE)
+    setBackgroundColor(gold)
+    setOnClickListener {
+        finish()
+    }
+}
+root.addView(backButton)
+
         root.addView(TextView(this).apply {
             text = "الْقُرْآنُ الْكَرِيمُ"
             textSize = 30f
