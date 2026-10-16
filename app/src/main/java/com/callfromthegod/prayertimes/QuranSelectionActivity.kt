@@ -117,14 +117,14 @@ private val ink = Color.rgb(245, 222, 165)
     }
 
     private fun makeTab(label: String, selected: Boolean) =
-        TextView(this).apply {
-            text = label
-            textSize = 20f
-            gravity = Gravity.CENTER
-            typeface = Typeface.DEFAULT_BOLD
-            setTextColor(if (selected) Color.WHITE else ink)
-            setBackgroundColor(if (selected) purple else Color.WHITE)
-        }
+    TextView(this).apply {
+        text = label
+        textSize = 20f
+        gravity = Gravity.CENTER
+        typeface = Typeface.DEFAULT_BOLD
+        setTextColor(if (selected) dark else gold)
+        setBackgroundColor(if (selected) gold else dark)
+    }
 
     private fun showList(parah: Boolean) {
         showingParah = parah
