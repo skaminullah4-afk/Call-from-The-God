@@ -311,6 +311,8 @@ root.addView(dropdownContainer)
             val selectionType = intent.getStringExtra("selection_type") ?: "surah"
 val selectionNumber = intent.getIntExtra("selection_number", 1)
 
+dropdownContainer.visibility = View.GONE
+
 if (selectionType == "parah") {
     showJuz(selectionNumber)
 } else {
