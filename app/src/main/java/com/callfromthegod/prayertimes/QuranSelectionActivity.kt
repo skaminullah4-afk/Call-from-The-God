@@ -101,10 +101,10 @@ class QuranSelectionActivity : Activity() {
             setPadding(dp(8), dp(8), dp(8), dp(16))
         }
 
-        scroll.addView(list, ScrollView.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        ))
+        scroll.addView(list, ViewGroup.LayoutParams(
+    ViewGroup.LayoutParams.MATCH_PARENT,
+    ViewGroup.LayoutParams.WRAP_CONTENT
+))
 
         root.addView(scroll, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f
