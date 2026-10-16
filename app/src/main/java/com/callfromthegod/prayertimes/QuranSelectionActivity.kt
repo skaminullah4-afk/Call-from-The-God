@@ -129,10 +129,10 @@ private val ink = Color.rgb(245, 222, 165)
     private fun showList(parah: Boolean) {
         showingParah = parah
 
-        surahTab.setBackgroundColor(if (!parah) purple else Color.WHITE)
-        parahTab.setBackgroundColor(if (parah) purple else Color.WHITE)
-        surahTab.setTextColor(if (!parah) Color.WHITE else ink)
-        parahTab.setTextColor(if (parah) Color.WHITE else ink)
+        surahTab.setBackgroundColor(if (!parah) gold else dark)
+parahTab.setBackgroundColor(if (parah) gold else dark)
+surahTab.setTextColor(if (!parah) dark else gold)
+parahTab.setTextColor(if (parah) dark else gold)
 
         list.removeAllViews()
 
