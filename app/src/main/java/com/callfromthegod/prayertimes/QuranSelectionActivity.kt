@@ -69,8 +69,6 @@ private val ink = Color.rgb(245, 222, 165)
         "تَبَارَكَ الَّذِي", "عَمَّ"
     )
 
-    private val colors = listOf(purple, green, blue, pink)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
