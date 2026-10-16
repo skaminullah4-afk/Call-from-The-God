@@ -222,6 +222,16 @@ juzSpinner.adapter = juzAdapter
             }
         )
 
+        root.addView(
+    juzSpinner,
+    LinearLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT
+    ).apply {
+        bottomMargin = 8
+    }
+)
+
         val fontControls = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER
