@@ -150,6 +150,18 @@ class QuranActivity : Activity() {
                 setColor(Color.rgb(30, 30, 30))
             })
         }
+        
+        val juzSpinner = Spinner(this).apply {
+    setBackground(GradientDrawable().apply {
+        setColor(Color.rgb(30, 30, 30))
+        setStroke(1, gold)
+        cornerRadius = 12f
+    })
+
+    setPopupBackgroundDrawable(GradientDrawable().apply {
+        setColor(Color.rgb(30, 30, 30))
+    })
+        }
 
         val options = (1..114).map { "Surah $it" }
 
