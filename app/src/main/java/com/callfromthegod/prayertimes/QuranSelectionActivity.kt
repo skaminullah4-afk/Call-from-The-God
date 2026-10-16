@@ -154,7 +154,7 @@ parahTab.setTextColor(if (parah) dark else gold)
                 text = (index + 1).toString()
                 textSize = 20f
                 gravity = Gravity.CENTER
-                setTextColor(Color.WHITE)
+                setTextColor(dark)
                 background = GradientDrawable().apply {
                     setColor(accent)
                     cornerRadius = dp(24).toFloat()
