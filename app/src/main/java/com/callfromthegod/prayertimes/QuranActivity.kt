@@ -200,6 +200,18 @@ class QuranActivity : Activity() {
 
         spinner.adapter = adapter
 
+        val juzAdapter = ArrayAdapter(
+    this,
+    android.R.layout.simple_spinner_item,
+    (1..30).map { "Juz $it" }
+).apply {
+    setDropDownViewResource(
+        android.R.layout.simple_spinner_dropdown_item
+    )
+}
+
+juzSpinner.adapter = juzAdapter
+        
         root.addView(
             spinner,
             LinearLayout.LayoutParams(
