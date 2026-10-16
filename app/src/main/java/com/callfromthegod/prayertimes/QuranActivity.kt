@@ -435,8 +435,13 @@ displayedVerses = if (remainingText.isNotEmpty()) {
                     ) {
                         showSurah(position + 1)
                     }
-                    
-                    juzSpinner.onItemSelectedListener =
+
+                    override fun onNothingSelected(
+                        parent: AdapterView<*>?
+                    ) {}
+                }
+               
+            juzSpinner.onItemSelectedListener =
     object : AdapterView.OnItemSelectedListener {
         override fun onItemSelected(
             parent: AdapterView<*>?,
@@ -450,11 +455,6 @@ displayedVerses = if (remainingText.isNotEmpty()) {
 
         override fun onNothingSelected(parent: AdapterView<*>?) {}
     }
-
-                    override fun onNothingSelected(
-                        parent: AdapterView<*>?
-                    ) {}
-                }
 
         } catch (e: Exception) {
             quranText.text = "Could not load Qur'an text."
