@@ -145,14 +145,20 @@ root.addView(backButton)
         }
         juzSpinner.adapter = juzAdapter
 
-        fun addDropdown(spinner: Spinner) {
-            root.addView(spinner, LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply { bottomMargin = 8 })
-        }
-        addDropdown(surahSpinner)
-        addDropdown(juzSpinner)
+        val dropdownContainer = LinearLayout(this).apply {
+    orientation = LinearLayout.VERTICAL
+}
+
+fun addDropdown(spinner: Spinner) {
+    dropdownContainer.addView(spinner, LinearLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT
+    ).apply { bottomMargin = 8 })
+}
+
+addDropdown(surahSpinner)
+addDropdown(juzSpinner)
+root.addView(dropdownContainer)
 
         val fontControls = LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
