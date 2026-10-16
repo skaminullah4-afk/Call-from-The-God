@@ -103,7 +103,16 @@
     android:textStyle="bold"
     android:backgroundTint="#D4AF62"
     android:layout_marginBottom="20dp" />
-        
+      
+        <Button
+            android:id="@+id/openAsmaUlHusna"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="☪ ASMA-UL-HUSNA (99 NAMES)"
+            android:textColor="#174A35"
+            android:textStyle="bold"
+            android:backgroundTint="#D4AF62"
+            android:layout_marginBottom="20dp" />
       
         <Spinner
             android:id="@+id/asrMethodSpinner"
