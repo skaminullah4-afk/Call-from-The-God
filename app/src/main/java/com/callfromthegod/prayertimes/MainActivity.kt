@@ -120,7 +120,7 @@ class MainActivity : Activity() {
         asrMethodSpinner.adapter = makeAdapter(asrMethods)
 
 findViewById<Button>(R.id.openQuran).setOnClickListener {
-    startActivity(Intent(this, QuranActivity::class.java))
+    startActivity(Intent(this, QuranSelectionActivity::class.java))
 }
 
 findViewById<Button>(R.id.openAsmaUlHusna).setOnClickListener {
